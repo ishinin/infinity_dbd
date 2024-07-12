@@ -4,26 +4,39 @@ $c[_________________
 |      v.1.0        |
 |___________________|
 ]
+$c[-- configuration --]
 
-$c[-- some stuff for this work--]
+$var[notify_update;yes] $c[Changue this to disable update notifications]
+$c[==↑-(yes,no)-↑]
+
+$c[-- some stuff for this work --]
 $nomention
 $textSplit[$getVar[main.main;$authorID];∆]
+$var[version;1.0]
+$var[git;https://raw.githubusercontent.com/ishinin/infinity_dbd/main/version]
 $var[letra;$splitText[<]]
 $var[mensagem;$splitText[>]]
 $var[all;$var[letra]$var[mensagem]]
+$c[ishinin]
 $async[delay]
    $var[temp.msg.id;$sendMessage[aguarde...;yes]]
 $endasync
 $await[delay]
 $var[messageID;$var[temp.msg.id]]
 
-$c[-- commandos --]
+$c[-- Commands --]
 $if[$or[$var[all]==e.teste;true==false]==true]
    $var[wasCommand;1]
    $editMessage[$channelID;$var[messageID];Que?;Teste;Esse comando foi um teste;#ffffff;:O]
 $endif
 
-$c[-- Finalizando --]
+$c[-- Finishing --]
+$httpGet[$var[git]]
+$var[infinity.version;$httpResult]
 $if[$var[wasCommand]!=1]
    $deleteMessage[$channelID;$var[messageID]]
+   $else
+      $if[$and[$var[infinity.version]!=$var[version];$var[notify_update]==yes]==true]
+         $sendMessage[$channelID;Nova atualização disponível! confira: https://github.com/ishinin/infinity_dbd/tree/main]
+      $endif
 $endif
