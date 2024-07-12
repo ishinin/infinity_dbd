@@ -1,0 +1,29 @@
+$c[_________________
+|                   |
+|     infinity      |
+|      v.1.0        |
+|___________________|
+]
+
+$c[-- some stuff for this work--]
+$nomention
+$textSplit[$getVar[main.main;$authorID];∆]
+$var[letra;$splitText[<]]
+$var[mensagem;$splitText[>]]
+$var[all;$var[letra]$var[mensagem]]
+$async[delay]
+   $var[temp.msg.id;$sendMessage[aguarde...;yes]]
+$endasync
+$await[delay]
+$var[messageID;$var[temp.msg.id]]
+
+$c[-- commandos --]
+$if[$or[$var[all]==e.teste;true==false]==true]
+   $var[wasCommand;1]
+   $editMessage[$channelID;$var[messageID];Que?;Teste;Esse comando foi um teste;#ffffff;:O]
+$endif
+
+$c[-- Finalizando --]
+$if[$var[wasCommand]!=1]
+   $deleteMessage[$channelID;$var[messageID]]
+$endif
